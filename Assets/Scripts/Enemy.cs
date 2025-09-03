@@ -10,7 +10,7 @@ public class Enemy : MonoBehaviour
 {
     NavMeshAgent agent => GetComponent<NavMeshAgent>();
     public Animation anim;
-    public Transform Target;
+    public Transform Target,HitBoxObject;
     public float IterationTimer = 0.5f;
     private bool wait = true;
     public bool chase = true;
@@ -35,6 +35,10 @@ public class Enemy : MonoBehaviour
         if (chase)
         {
             agent.destination = Target.position;
+        }
+        else
+        {
+            agent.destination = agent.transform.position;
         }
         yield return new WaitForSeconds(IterationTimer);
         StartCoroutine("EvalGoal");
@@ -70,7 +74,10 @@ public class Enemy : MonoBehaviour
         if (InRange())
         {
             anim.Blend("RobotSwing", 1f);
-            yield return new WaitForSeconds(anim.GetClip("RobotSwing").length * Time.deltaTime);
+            yield return new WaitForSeconds(0.2f * Time.deltaTime);
+            EnableHitbox();
+            yield return new WaitForSeconds(0.25f * Time.deltaTime);
+            DisableHitbox();
         }
         else if (chase)
         {
@@ -81,13 +88,18 @@ public class Enemy : MonoBehaviour
         StartCoroutine("Animation");
     }
 
-    bool InRange()
+    private bool InRange()
     {
         return Vector3.Distance(Player.Instance.transform.position, transform.position) < range;
     }
 
     public void EnableHitbox()
     {
-        //transform.GetChild(1).GetComponent<Hitbox>().enable;
+        HitBoxObject.GetComponent<Hitbox>().EnableHitbox();
+    }
+
+    public void DisableHitbox()
+    {
+        HitBoxObject.GetComponent<Hitbox>().DisableHitbox();
     }
 }
