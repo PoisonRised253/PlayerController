@@ -116,6 +116,11 @@ public class Player : MonoBehaviour
             Sword.GetComponent<Sword>().StartCoroutine("Swing");
         }
         Sword.SetActive(hasSword);
+
+        if (grounded)
+        {
+            fallTime = 0;
+        }
         //Grapple.SetActive(hasGrapple);
         ToggleWeight();
     }
