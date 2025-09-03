@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.Entities;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class ObjectSpawner : MonoBehaviour
 {
@@ -43,6 +44,9 @@ public class ObjectSpawner : MonoBehaviour
         {
             var x = Instantiate(ObjectToSpawn, position: transform.position, SpawnRotation(), transform);
             isSpawning = true;
+            NavMeshAgent agent;
+            x.TryGetComponent<NavMeshAgent>(out agent);
+            agent.enabled = true;
             if (setVelocity)
             {
                 Velocity(x.transform);
@@ -53,14 +57,17 @@ public class ObjectSpawner : MonoBehaviour
             isSpawning = false;
         }
 
-       
+
         yield return new WaitForSecondsRealtime(spawnInterval);
         StartCoroutine("Start");
     }
 
     public void SpawnOnce()
     {
+        NavMeshAgent agent;
         var x = Instantiate(ObjectToSpawn, position: transform.position, SpawnRotation(), transform);
+        x.TryGetComponent<NavMeshAgent>(out agent);
+        agent.enabled = true;
         if (setVelocity)
         {
             Velocity(x.transform);

@@ -10,7 +10,7 @@ public class Enemy : MonoBehaviour
 {
     NavMeshAgent agent => GetComponent<NavMeshAgent>();
     public Animation anim;
-    public Transform Target,HitBoxObject;
+    public Transform Target, HitBoxObject, PhysModel;
     public float IterationTimer = 0.5f;
     private bool wait = true;
     public bool chase = true;
@@ -32,11 +32,11 @@ public class Enemy : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
             wait = false;
         }
-        if (chase)
+        if (chase && isActive())
         {
             agent.destination = Target.position;
         }
-        else
+        else if (isActive())
         {
             agent.destination = agent.transform.position;
         }
@@ -61,6 +61,7 @@ public class Enemy : MonoBehaviour
         var damage = Player.Instance.Sword.GetComponent<Sword>().damage;
         if (Health < damage)
         {
+            Instantiate(PhysModel, position: transform.position, rotation: Random.rotation, null);
             Death();
         }
         else
@@ -101,5 +102,10 @@ public class Enemy : MonoBehaviour
     public void DisableHitbox()
     {
         HitBoxObject.GetComponent<Hitbox>().DisableHitbox();
+    }
+
+    public bool isActive()
+    {
+        return agent.enabled;
     }
 }

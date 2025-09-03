@@ -183,7 +183,6 @@ GameObject:
   - component: {fileID: 5717178849563124296}
   - component: {fileID: 6939901554126224453}
   - component: {fileID: 5297013431010470588}
-  - component: {fileID: 1068295690790940942}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -331,18 +330,8 @@ MonoBehaviour:
   hasDash: 0
   Sword: {fileID: 8583134468389504723}
   Grapple: {fileID: 0}
---- !u!75 &1068295690790940942
-ConstantForce:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6356276308269422051}
-  m_Enabled: 1
-  m_Force: {x: 0, y: -5, z: 0}
-  m_RelativeForce: {x: 0, y: 0, z: 0}
-  m_Torque: {x: 0, y: 0, z: 0}
-  m_RelativeTorque: {x: 0, y: 0, z: 0}
+  ItemPool: {fileID: 0}
+  fallTime: 0
 --- !u!1 &7664348005085006134
 GameObject:
   m_ObjectHideFlags: 0
@@ -533,6 +522,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9064982332785965304, guid: 1f3d7ce6d6f60ac408357d76b1bd1fa3, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3d795a89a3e00a64481105197f4bb694, type: 2}
+    - target: {fileID: 9064982332785965304, guid: 1f3d7ce6d6f60ac408357d76b1bd1fa3, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: c0b1d61f48a1deb478d83db33efc471b, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

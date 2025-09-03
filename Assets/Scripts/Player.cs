@@ -17,7 +17,6 @@ public class Player : MonoBehaviour
     private static Quaternion srot;
     private static Rigidbody rb => Instance.GetComponent<Rigidbody>();
     private static CapsuleCollider col => Instance.GetComponent<CapsuleCollider>();
-    private static ConstantForce force => Instance.GetComponent<ConstantForce>();
     [SerializeField]
     public Transform cam,WeaponHelper;
     private Vector3 Forward => Quaternion.Euler(0, -90, 0) * Instance.cam.transform.right;
@@ -33,6 +32,7 @@ public class Player : MonoBehaviour
     public bool hasSword, hasGrapple, hasDash;
     public GameObject Sword, Grapple;
     public GameObject ItemPool;
+    private ConstantForce fallForce;
     void Start()
     {
         Instance = this;
@@ -43,6 +43,8 @@ public class Player : MonoBehaviour
         spos = transform.position;
         srot = transform.rotation;
         Health = maxHealth;
+        fallForce = Player.Instance.AddComponent<ConstantForce>();
+        StartCoroutine("Fall");
     }
     void Update()
     {
@@ -71,7 +73,6 @@ public class Player : MonoBehaviour
             {
                 rb.velocity = new Vector3(vel.x, jumpForce, vel.z);
                 grounded = false;
-                StartCoroutine("Weight");
             }
         }
         if (allowMove[2])
@@ -114,12 +115,9 @@ public class Player : MonoBehaviour
         {
             Sword.GetComponent<Sword>().StartCoroutine("Swing");
         }
-        if (grounded)
-        {
-            force.enabled = true;
-        }
         Sword.SetActive(hasSword);
         //Grapple.SetActive(hasGrapple);
+        ToggleWeight();
     }
 
     void LateUpdate()
@@ -205,7 +203,6 @@ public class Player : MonoBehaviour
         if (coll.transform.root.tag == "Map")
         {
             grounded = false;
-            StartCoroutine("Weight");
         }
     }
 
@@ -255,13 +252,6 @@ public class Player : MonoBehaviour
                 grounded = true;
             }
         }
-    }
-
-    private IEnumerator Weight()
-    {
-        yield return new WaitForSecondsRealtime(0.25f);
-        rb.velocity = new Vector3(vel.x, vel.y - 0.25f, vel.z);
-        force.enabled = false;
     }
     private void LimitSpeed()
     {
@@ -372,6 +362,42 @@ public class Player : MonoBehaviour
         }
         
         hasDash = false;
+    }
+    private bool isFalling => !grounded;
+    public int fallTime = 0;
+    private IEnumerator Fall()
+    {
+        if (!grounded)
+        {
+            yield return new WaitForSecondsRealtime(0.5f);
+            if (!grounded)
+            {
+                fallTime = fallTime + 1;
+                fallForce.relativeForce = new Vector3(0,-fallTime * 50,0);
+            }
+        }
+        if (grounded)
+        {
+            fallTime = 0;
+        }
+        yield return new WaitForSecondsRealtime(0.5f);
+        StartCoroutine("Fall");
+    }
+
+    private bool ToggleWeight()
+    {
+        bool x = false;
+        if (fallTime > 0)
+        {
+            fallForce.enabled = true;
+            x = true;
+        }
+        else if (fallTime <= 0)
+        {
+            x = false;
+            fallForce.enabled = false;
+        }
+        return x;
     }
 
     //Anything below: Stolen from DaniDev

@@ -323,6 +323,7 @@ MonoBehaviour:
   anim: {fileID: 0}
   Target: {fileID: 0}
   HitBoxObject: {fileID: 6071399763697891969}
+  PhysModel: {fileID: 468537836550373579, guid: 6c5b8fe0210fae34ca37e6f5664b1621, type: 3}
   IterationTimer: 0.5
   chase: 1
   MaxHealth: 3
