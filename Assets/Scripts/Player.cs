@@ -244,6 +244,11 @@ public class Player : MonoBehaviour
                 e.Yield();
             }
         }
+        Hitbox hitbox;
+        if (other.TryGetComponent<Hitbox>(out hitbox))
+        {
+            StartCoroutine("Damage", hitbox);
+        }
     }
 
     private void GroundCheck()
@@ -389,6 +394,23 @@ public class Player : MonoBehaviour
         StartCoroutine("Fall");
     }
 
+    private IEnumerator Damage(Hitbox box)
+    {
+        Health -= box.damage;
+        if (Health < 0f)
+        {
+            print("Death");
+            Restart();
+            StopCoroutine("Damage");
+        }
+        else if (Health > 0f)
+        {
+            print("Pain");
+            Global.Instance.effects.StartCoroutine("OnHit");
+            StopCoroutine("Damage");
+        }
+        yield return new WaitForSeconds(1f);
+    }
     private bool ToggleWeight()
     {
         bool x = false;
@@ -403,6 +425,16 @@ public class Player : MonoBehaviour
             fallForce.enabled = false;
         }
         return x;
+    }
+
+    public static void Restart()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    private void OnGUI()
+    {
+        GUI.Label(new Rect(5, 40, 100, 25), "Health: " + Health);
     }
 
     //Anything below: Stolen from DaniDev

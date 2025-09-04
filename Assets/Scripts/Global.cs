@@ -1,10 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Global : MonoBehaviour
 {
+    public static Global Instance;
+    public Effects effects;
+    void Start()
+    {
+        Instance = this;
+        effects = transform.AddComponent<Effects>();
+    }
     public void Quit()
     {
         Debug.Log("User Exit!");

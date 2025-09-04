@@ -72,6 +72,10 @@ public class Enemy : MonoBehaviour
 
     private IEnumerator Animation()
     {
+        if (wait)
+        {
+            yield return new WaitForSeconds(0.5f);
+        }
         if (InRange())
         {
             anim.Blend("RobotSwing", 1f);
