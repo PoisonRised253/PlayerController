@@ -479,7 +479,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &219224519
 Transform:
   m_ObjectHideFlags: 0
@@ -1889,6 +1889,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ff6380369fff444bab4965a6b8f5523, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  effects: {fileID: 0}
 --- !u!114 &1410588670
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1929,8 +1930,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shouldSpawn: 1
+  setRotation: 0
+  setVelocity: 0
   spawnInterval: 3
   ObjectToSpawn: {fileID: 973837901764525742, guid: 154af39e191f57e4a93387ba9e8f4bc6, type: 3}
+  Rotation: {x: 0, y: 0, z: 0, w: 0}
+  velocity: {x: 0, y: 0, z: 0}
 --- !u!1 &1471169094
 GameObject:
   m_ObjectHideFlags: 0
@@ -2921,8 +2926,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1410588670}
-        m_TargetAssemblyTypeName: Maps, Assembly-CSharp
+      - m_Target: {fileID: 1410588669}
+        m_TargetAssemblyTypeName: Global, Assembly-CSharp
         m_MethodName: Load
         m_Mode: 5
         m_Arguments:
@@ -2930,7 +2935,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: TestMap
+          m_StringArgument: ArenaTest
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1716896872

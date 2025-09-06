@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using NUnit.Framework;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -33,6 +34,7 @@ public class Player : MonoBehaviour
     public GameObject Sword, Grapple;
     public GameObject ItemPool;
     private ConstantForce fallForce;
+    private float count;
     void Start()
     {
         Instance = this;
@@ -44,7 +46,9 @@ public class Player : MonoBehaviour
         srot = transform.rotation;
         Health = maxHealth;
         fallForce = Player.Instance.AddComponent<ConstantForce>();
+        Application.targetFrameRate = 120;
         StartCoroutine("Fall");
+        StartCoroutine("FpsCount");
     }
     void Update()
     {
@@ -52,6 +56,16 @@ public class Player : MonoBehaviour
         if (hasSword && Input.GetKeyDown(KeyCode.F))
         {
             Sword.GetComponent<Sword>().StartCoroutine("Yeet");
+        }
+    }
+
+    private IEnumerator FpsCount()
+    {
+        GUI.depth = 2;
+        while (true)
+        {
+            count = 1f / Time.unscaledDeltaTime;
+            yield return new WaitForSeconds(0.1f);
         }
     }
     void FixedUpdate()
@@ -240,8 +254,7 @@ public class Player : MonoBehaviour
             }
             catch (NullReferenceException e)
             {
-                print("This happened again :/");
-                e.Yield();
+                new IgnoreException(e.Message);
             }
         }
         Hitbox hitbox;
@@ -435,6 +448,7 @@ public class Player : MonoBehaviour
     private void OnGUI()
     {
         GUI.Label(new Rect(5, 40, 100, 25), "Health: " + Health);
+        GUI.Label(new Rect(5, 60, 100, 25), "FPS: " + Mathf.Round(count));
     }
 
     //Anything below: Stolen from DaniDev
