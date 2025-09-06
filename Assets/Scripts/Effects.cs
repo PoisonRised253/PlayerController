@@ -27,20 +27,27 @@ public class Effects : MonoBehaviour
         //Idk how to make vignette go beeg then smol so i cant make this :/
         Color adaptCol = Color.Lerp(Color.red, Color.black, 1f);
         float adaptInt = Mathf.Lerp(1f, 0f, 1f);
-        vig.intensity.Override(adaptInt);
-        vig.color.Override(adaptCol);
+        while (true)
+        {
+            vig.intensity.Override(adaptInt);
+            vig.color.Override(adaptCol);
+            if (adaptInt < 0.25f)
+            {
+                adaptInt = 0.25f;
+            }
+        }
         yield return new WaitForSeconds(0.125f);
     }
 
-    private struct Default
+    public struct DefaultShaders
     {
-        Color vigColor { get { return new Color(0, 0, 0, 255); } }
-        float vigIntense { get { return 0.25f; } }
-        float vigSmooth { get { return 0.5f; } }
-        int blurSamples { get { return 10; } }
-        float bloomIntense { get { return 1; } }
-        float bloomThres { get { return 1; } }
-        float cromIntense { get { return 0.125f; } }
+        public Color vigColor { get { return new Color(0, 0, 0, 255); } }
+        public float vigIntense { get { return 0.25f; } }
+        public float vigSmooth { get { return 0.5f; } }
+        public int blurSamples { get { return 10; } }
+        public float bloomIntense { get { return 1; } }
+        public float bloomThres { get { return 1; } }
+        public float cromIntense { get { return 0.125f; } }
     }
 
     private static FloatParameter FloatToParameter(float f)
